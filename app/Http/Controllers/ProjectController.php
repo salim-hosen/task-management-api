@@ -6,6 +6,7 @@ use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Http\Resources\Project\ProjectIndexResource;
 use App\Http\Resources\Project\ProjectShowResource;
+use App\Http\Resources\Task\TaskIndexResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,11 +37,23 @@ class ProjectController extends Controller
         return ProjectIndexResource::collection($projects);
     }
 
+    public function tasks($project_id){
+
+        $project = Project::findOrFail($project_id);
+        $tasks = $project->tasks;
+        return new TaskIndexResource($tasks);
+    }
 
     public function store(StoreProjectRequest $request)
     {
 
-        Project::create($request->all());
+        Project::create([
+            "user_id" => $request->user()->id,
+            "name" => $request->name,
+            "description" => $request->description,
+            "status" => $request->status,
+            "manager" => $request->user()->id
+        ]);
 
         return response([
             "success" => true,

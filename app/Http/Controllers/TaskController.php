@@ -17,9 +17,19 @@ class TaskController extends Controller
         $this->middleware("auth:sanctum");
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all();
+        if ($request->q) {
+
+            $tasks = Task::where("description", "like", "%$request->q%")
+                ->orWhere("status", "like", "%$request->q%")
+                ->get();
+
+            return TaskIndexResource::collection($tasks);
+
+        }
+
+        $tasks = $request->per_page ? Task::paginate($request->per_page) : Task::all();
         return TaskIndexResource::collection($tasks);
     }
 
@@ -27,7 +37,13 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
 
-        Task::create($request->all());
+        Task::create([
+            "user_id" => $request->user()->id,
+            "project_id" => $request->project_id,
+            "start_date" => $request->start_date,
+            "close_date" => $request->close_date,
+            "description" => $request->description,
+        ]);
 
         return response([
             "success" => true,

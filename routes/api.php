@@ -28,5 +28,7 @@ Route::post('verification/resend', [VerificationController::class, 'resend']);
 Route::get("me", [MeController::class, 'getMe']);
 
 Route::resource("projects", ProjectController::class);
+Route::get("project-tasks/{project_id}", [ProjectController::class, 'tasks']);
+
 Route::resource("tasks", TaskController::class);
 Route::resource("worksheets", WorksheetController::class);

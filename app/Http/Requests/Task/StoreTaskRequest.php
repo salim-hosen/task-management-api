@@ -25,12 +25,9 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             "project_id" => ["required"],
-            "user_id" => ["required"],
-            "description" => ["required"],
-            "start_date" => ["required"],
-            "close_date" => ["required"],
-            "is_complete" => ["required"],
-            "status" => ["required"]
+            "description" => ["required", "max:1000"],
+            "start_date" => ["required", "date", "before:close_date"],
+            "close_date" => ["required", "date"],
         ];
     }
 }

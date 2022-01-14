@@ -20,8 +20,8 @@ class CreateTasksTable extends Migration
             $table->text("description");
             $table->date("start_date");
             $table->date("close_date");
-            $table->boolean("is_complete");
-            $table->string("status");
+            $table->boolean("is_complete")->default(false);
+            $table->string("status")->default("New");
             $table->softDeletes();
             $table->timestamps();
         });
