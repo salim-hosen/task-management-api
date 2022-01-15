@@ -24,12 +24,8 @@ class StoreWorksheetRequest extends FormRequest
     public function rules()
     {
         return [
-            "project_id" => ["required"],
-            "task_id" => ["required"],
-            "user_id" => ["required"],
-            "time" => ["required"],
-            "date" => ["required"],
-            "note" => ["required"]
+            "hours" => ["required", "numeric", "min: 0"],
+            "task_id" => ["required"]
         ];
     }
 }

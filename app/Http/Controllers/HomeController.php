@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\Worksheet;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:sanctum');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+        $data['totalProjects'] = Project::all()->count();
+        $data['completedProjects'] = Project::where('status', 'complete')->count();
+
+        $data['totalTasks'] = Task::all()->count();
+        $data['completedTasks'] = Task::where("is_complete", true)->count();
+
+        $data['totalWorkingHours'] = Worksheet::all()->sum("time");
+
+        return response($data, Response::HTTP_OK);
     }
 }

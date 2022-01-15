@@ -20,4 +20,12 @@ class Task extends Model
         "status"
     ];
 
+    public function worksheets(){
+        return $this->hasMany(Worksheet::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }

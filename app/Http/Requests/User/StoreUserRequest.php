@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Worksheet;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateWorksheetRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateWorksheetRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user();
+        return $this->user()->role == "admin";
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateWorksheetRequest extends FormRequest
     public function rules()
     {
         return [
-            "hours" => ["required", "numeric"],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 }

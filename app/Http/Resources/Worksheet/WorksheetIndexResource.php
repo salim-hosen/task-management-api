@@ -14,6 +14,16 @@ class WorksheetIndexResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            "project_name" => $this->project->name,
+            "task_name" => $this->task->description,
+            "note" => $this->note,
+            "time" => $this->time,
+            "date" => $this->date,
+            "username" => $this->user->name
+        ];
+
     }
 }

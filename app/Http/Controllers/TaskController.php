@@ -21,9 +21,10 @@ class TaskController extends Controller
     {
         if ($request->q) {
 
-            $tasks = Task::where("description", "like", "%$request->q%")
-                ->orWhere("status", "like", "%$request->q%")
-                ->get();
+            $tasks = Task::whereHas('user', function($q) use ($request) {
+                $q->where('name', 'like', "%$request->q%");
+            })
+            ->get();
 
             return TaskIndexResource::collection($tasks);
 
@@ -60,7 +61,11 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        $task->update($request->all());
+        $task->update([
+            "close_date" => $request->close_date,
+            "status" => $request->status,
+            "is_complete" => $request->status == "Complete" ? true : false
+        ]);
 
         return response([
             "success" => true,

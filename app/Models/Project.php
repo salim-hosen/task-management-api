@@ -23,4 +23,8 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function worksheets(){
+        return $this->hasMany(Worksheet::class);
+    }
+
 }

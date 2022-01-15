@@ -18,9 +18,9 @@ class CreateWorksheetsTable extends Migration
             $table->foreignId("project_id")->constrained()->onDelete("cascade");
             $table->foreignId("user_id")->constrained()->onDelete("cascade");
             $table->foreignId("task_id")->constrained()->onDelete("cascade");
-            $table->time("time");
+            $table->integer("time");
             $table->date("date");
-            $table->text("note");
+            $table->text("note")->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -37,11 +37,22 @@ class ProjectController extends Controller
         return ProjectIndexResource::collection($projects);
     }
 
-    public function tasks($project_id){
+    public function dashboard($id)
+    {
 
-        $project = Project::findOrFail($project_id);
+        $project = Project::findOrFail($id);
+
+        $data['totalTasks'] = $project->tasks()->count();
+        $data['completedTasks'] = $project->tasks()->where("is_complete", true)->count();
+        $data['totalWorkingHours'] = $project->worksheets()->sum("time");
+
+        return response($data, Response::HTTP_OK);
+    }
+
+    public function tasks($id){
+        $project = Project::find($id);
         $tasks = $project->tasks;
-        return new TaskIndexResource($tasks);
+        return  TaskIndexResource::collection($tasks);
     }
 
     public function store(StoreProjectRequest $request)

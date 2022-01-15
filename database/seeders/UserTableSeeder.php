@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Hash;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UserTableSeeder extends Seeder
 {
@@ -20,19 +21,25 @@ class UserTableSeeder extends Seeder
                 "name" => "Admin",
                 "email" => "admin@admin.com ",
                 "password" => Hash::make("password"),
-                "role" => "admin"
+                "role" => "admin",
+                "status" => true,
+                "created_at" => Carbon::now()
             ],
             [
                 "name" => "Manager",
                 "email" => "manager@manager.com ",
                 "password" => Hash::make("password"),
-                "role" => "manager"
+                "role" => "manager",
+                "status" => true,
+                "created_at" => Carbon::now()
             ],
             [
                 "name" => "Staff",
                 "email" => "staff@staff.com ",
                 "password" => Hash::make("password"),
-                "role" => "staff"
+                "role" => "staff",
+                "status" => true,
+                "created_at" => Carbon::now()
             ]
         ];
 
